@@ -2,8 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
-    
 
+    string addingExtra = "";
 }
 
 
@@ -78,6 +78,7 @@
             <tbody>
                 @foreach (var item in Model.Orders as List<Order>)
                 {
+                    addingExtra = "";
                     <tr>
                         <td>
                             @item.Quantity x (@item.Menu.MenuName-@item.Menu.Price TL)
@@ -85,9 +86,9 @@
                         <td>
                             @foreach  (var extra in item.Extras as List<Extra>)
                             {
-                                @String.Format($"{extra.ExtraName},"); 
-
+                                addingExtra += extra.ExtraName + ",";
                             }
+                            @addingExtra.TrimEnd(',')
                         </td>
                         <td>
                             @item.Size

@@ -7,7 +7,7 @@
 namespace HamburgerAppMvc.Migrations
 {
     /// <inheritdoc />
-    public partial class te : Migration
+    public partial class t : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

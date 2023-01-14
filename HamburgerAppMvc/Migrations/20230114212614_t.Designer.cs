@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HamburgerAppMvc.Migrations
 {
     [DbContext(typeof(HamburgerDbContext))]
-    [Migration("20230114144731_te")]
-    partial class te
+    [Migration("20230114212614_t")]
+    partial class t
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

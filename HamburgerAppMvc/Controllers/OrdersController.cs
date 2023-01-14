@@ -46,8 +46,7 @@ namespace HamburgerAppMvc.Controllers
         }
         public async Task<IActionResult> GiveOrder(Order order,string MenuName,List<string> extraName,List<Extra> extras,int MenuID)
         {
-            try
-            {
+            
                 Menu menu1 = await _context.Menus.FindAsync(MenuID);
                 foreach (var item in extraName)
                 {
@@ -59,11 +58,14 @@ namespace HamburgerAppMvc.Controllers
 
                 }
                 order.Menu = menu1;
-                order.CalculateTotalPrice();
-                 _context.Orders.Add(order);
+                order.MenuID = MenuID;
+               order.CalculateTotalPrice();
+            if(order.Menu!=null&&order.Quantity>0&&order.Size>0) 
+            {
+                _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
-            }
-            catch (Exception)
+            }               
+            else 
             {
                 TempData["Hatalı"] = "Eksik bilgiler var";
                 return RedirectToAction("Index");

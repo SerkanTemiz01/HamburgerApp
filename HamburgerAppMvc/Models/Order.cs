@@ -7,8 +7,8 @@ namespace HamburgerAppMvc.Models
         public int ID { get; set; }
         public virtual Menu Menu { get; set; }
         public int? MenuID { get; set; }
-        public virtual List<Extra> Extras { get; set; }
-       
+        public virtual List<Extra>? Extras { get; set; }
+
         public decimal TotalPrice { get; set; }
 
         public Status Status { get; set; } = Status.Active;
@@ -18,28 +18,30 @@ namespace HamburgerAppMvc.Models
 
         public Order()
         {
-            Extras= new List<Extra>();
-            Menu= new Menu();
+            Extras = new List<Extra>();
+            Menu = new Menu();
         }
 
-        public async void CalculateTotalPrice()
+        public void CalculateTotalPrice()
         {
-            TotalPrice=Menu.Price*Quantity;   
-            switch (Size)
+            if(Menu!=null||(Menu!=null&&Extras.Count>0))
             {
-                case Size.Small:
-                    TotalPrice *= 0.7M;
-                    break;
-                        case Size.Medium:
-                    TotalPrice *= 1M;
-                    break;
-                case Size.Large:
-                    TotalPrice *= 1.6M;
-                    break;
+                TotalPrice = Menu.Price * Quantity;
+                switch (Size)
+                {
+                    case Size.Small:
+                        TotalPrice *= 0.7M;
+                        break;
+                    case Size.Medium:
+                        TotalPrice *= 1M;
+                        break;
+                    case Size.Large:
+                        TotalPrice *= 1.6M;
+                        break;
 
+                }
+                TotalPrice += Extras.Sum(x => x.Price) * Quantity;
             }
-            TotalPrice += Extras.Sum(x => x.Price) * Quantity;
-          
 
         }
     }
