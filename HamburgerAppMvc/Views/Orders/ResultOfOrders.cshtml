@@ -1,0 +1,149 @@
+﻿@model TotalOrdersVM
+
+@{
+    ViewData["Title"] = "ResultOfOrders";
+}
+@*
+<h1>ResultOfOrders</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Total Endorsement
+            </th>
+            <th>
+                Total Orders
+            </th>
+            <th>
+                Total Ordered Menus
+            </th>
+            <th>
+                Total Ordered Extras
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>
+                @Model.Endorsement
+            </td>
+            <td>
+                @Model.CountOfOrdered
+            </td>
+            <td>
+                @Model.CountOfMenus
+            </td>
+            <td>
+                @Model.CountOfExtras
+            </td>
+
+        </tr>
+
+    </tbody>
+</table>
+
+*@
+
+
+
+<div>
+    <h1 align="center">Orders</h1>
+    <div class="d-flex justify-content-sm-evenly">
+        <div class="card" style="width: 18rem;">
+            <img src="~/images/TotalPrice.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Endorsement</h5>
+                <p class="card-text">Total Turnoversa</p>
+            </div>
+        </div>
+
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="~/images/CounfOfMenus.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.CountOfMenus</h5>
+                <p class="card-text">Total Order</p>
+            </div>
+        </div>
+
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="~/images/Sos.png" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.CountOfExtras</h5>
+                <p class="card-text">
+                    Number of Extra Material Sold
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="card" style="width: 18rem;">
+            <img src="~/images/Hamburger.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.CountOfOrdered</h5>
+                <p class="card-text">Number of Menus Sold</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="col-md-6 col-lg-8 mt-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Menu
+                </th>
+                <th>
+                    Extras
+                </th>
+                <th>
+                    Size
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Orders as List<Order>)
+            {
+                <tr>
+                    <td>
+                        @item.Quantity x (@item.Menu.MenuName-@item.Menu.Price TL)
+                    </td>
+                    <td>
+                        @foreach (var extra in item.Extras as List<Extra>)
+                        {
+                            @String.Format($"{extra.ExtraName},")
+                            ;
+
+                        }
+                    </td>
+                    <td>
+                        @item.Size
+                    </td>
+                    <td>
+                        @item.TotalPrice
+                    </td>                 
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row mt-2 d-flex justify-content-end me-2 ">
+
+        <a asp-action="DeleteAllOrders" class="btn btn-danger col-4" onclick="return confirm('Silmek istediğinize emin misiniz?')">Delete</a>
+    </div>
+                       
+                    
+</div>

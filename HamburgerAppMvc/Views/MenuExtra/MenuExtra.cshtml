@@ -1,0 +1,120 @@
+﻿@model MenuExtraVM
+
+@{
+    ViewData["Title"] = "MenuExtra";
+   
+}
+
+
+
+<div class="row">
+<div class="col-md-4">
+        <h1>Adding Menu</h1>
+    <form asp-action="AddMenu">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Menu.MenuName" class="control-label"></label>
+            <input asp-for="Menu.MenuName" class="form-control" />
+            <span asp-validation-for="Menu.MenuName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Menu.Price" class="control-label"></label>
+            <input type="number" asp-for="Menu.Price" class="form-control"/>
+            <span asp-validation-for="Menu.Price" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        <h1>Adding Extras</h1>
+        <form asp-action="AddExtra">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Extra.ExtraName" class="control-label"></label>
+                <input asp-for="Extra.ExtraName" class="form-control" />
+                <span asp-validation-for="Extra.ExtraName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Extra.Price" class="control-label"></label>
+                <input type="number" asp-for="Extra.Price" class="form-control"/>
+                <span asp-validation-for="Extra.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<h1>Menus</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Menu Name
+            </th>
+            <th>
+                Menu Price
+            </th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Menus) {
+        <tr>
+            <td>
+                @item.MenuName
+            </td>
+            <td>
+                @item.Price
+            </td>
+            <td>
+                <a asp-action="UpdateMenu" asp-route-id="@item.MenuID" class="btn btn-primary">Edit</a> 
+                <a asp-action="DeleteMenu" asp-route-id="@item.MenuID" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<h1>Extras</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Extra Toppings
+            </th>
+            <th>
+                 Price
+            </th>
+            <th>Functions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Extras)
+        {
+            <tr>
+                <td>
+                    @item.ExtraName
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    <a asp-action="UpdateExtra" asp-route-id="@item.ExtraID" class="btn btn-primary">Edit</a>
+                    <a asp-action="DeleteExtra" asp-route-id="@item.ExtraID" class="btn btn-danger" onclick="return confirm('Are you sure to delete?')">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

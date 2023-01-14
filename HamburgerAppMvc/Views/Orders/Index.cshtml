@@ -1,0 +1,139 @@
+﻿@model OrderDTO
+
+@{
+    ViewData["Title"] = "Index";
+    
+
+}
+
+
+
+
+<div class="row d-flex justify-content-center">
+    <div style="background-color:cadetblue;" class="col-8 rounded-3">
+        <h1 class="text-center text-uppercase">hamburger </h1>
+    </div>
+
+</div>
+
+<div class="row mt-3 d-flex justify-content-between">
+    <div class="col-4">
+        <img src="~/images/hamburger.jpg" class="mark" />
+        <form asp-action="GiveOrder" class="form-group">
+            <div class="mt-3 border-bottom border-top">
+                @foreach (var item in Enum.GetValues(typeof(Size)))
+                {
+                    <div class="form-check form-check-inline modal-sm">
+                        <input class="form-check-input" type="radio" asp-for="Order.Size" value="@item">
+                        <label class="form-check-label">@item</label>
+                    </div>
+                }
+            </div>
+            <div class="mt-2">
+                <label> Select Menu</label>
+                <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"
+                        asp-items="Model.AddingExtras"
+                        asp-for="MenuID">
+                    <option selected>Select A Menu</option>
+                </select>
+            </div>
+            @foreach (var item in Model.Extras)
+            {
+                <div class="form-check form-check-inline modal-sm">
+                    <input class="form-check-input" type="checkbox" id="@item.ExtraID" asp-for="extraName" value="@item.ExtraName">
+                    <label class="form-check-label">@item.ExtraName</label>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="Order.Quantity" class="control-label"></label>
+                <input asp-for="Order.Quantity" class="form-control" />
+                <span asp-validation-for="Order.Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-4" align="end">
+                <input type="submit" value="Give Order" class="btn btn-primary" />
+                <p class="text-danger mt-2">@TempData["Hatalı"]</p>
+            </div>
+
+        </form>
+
+    </div>
+    <div class="col-md-6 col-lg-8 mt-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Menu
+                    </th>
+                    <th>
+                        Extras
+                    </th>
+                    <th>
+                        Size
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Orders as List<Order>)
+                {
+                    <tr>
+                        <td>
+                            @item.Quantity x (@item.Menu.MenuName-@item.Menu.Price TL)
+                        </td>
+                        <td>
+                            @foreach  (var extra in item.Extras as List<Extra>)
+                            {
+                                @String.Format($"{extra.ExtraName},"); 
+
+                            }
+                        </td>
+                        <td>
+                            @item.Size
+                        </td>
+                        <td>
+                            @item.TotalPrice
+                        </td>
+
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-danger" onclick="return confirm('Silmek istediğinize emin misiniz?')">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="row d-flex justify-content-end">
+    <div class="col-5 mt-2 border-top d-flex justify-content-end">
+        <table class="table">
+            <thead>
+                <tr>
+                  
+                    <td>
+                        Total Price
+                    </td>
+                    <td>
+                        @Model.Orders.Sum(x=>x.TotalPrice) TL
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+        </div>
+    <div class="row">
+        <div class="col d-flex justify-content-end">
+            <a asp-action="CompleteOrder" class="btn btn-primary border-top " onclick="return confirm('Are you sure to complete Order?')">Complete Order</a>
+        </div>
+    </div>
+
+
+   </div>
+</div>
+
+
+
+
+
+
+
+
