@@ -2,52 +2,8 @@
 
 @{
     ViewData["Title"] = "ResultOfOrders";
+    string addingExtras = "";
 }
-@*
-<h1>ResultOfOrders</h1>
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Total Endorsement
-            </th>
-            <th>
-                Total Orders
-            </th>
-            <th>
-                Total Ordered Menus
-            </th>
-            <th>
-                Total Ordered Extras
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-        <tr>
-            <td>
-                @Model.Endorsement
-            </td>
-            <td>
-                @Model.CountOfOrdered
-            </td>
-            <td>
-                @Model.CountOfMenus
-            </td>
-            <td>
-                @Model.CountOfExtras
-            </td>
-
-        </tr>
-
-    </tbody>
-</table>
-
-*@
-
 
 
 <div>
@@ -66,7 +22,7 @@
         <div class="card" style="width: 18rem;">
             <img src="~/images/CounfOfMenus.png" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">@Model.CountOfMenus</h5>
+                <h5 class="card-title">@Model.CountOfOrdered</h5>
                 <p class="card-text">Total Order</p>
             </div>
         </div>
@@ -88,7 +44,7 @@
         <div class="card" style="width: 18rem;">
             <img src="~/images/Hamburger.jpg" class="card-img-top" alt="...">
             <div class="card-body">
-                <h5 class="card-title">@Model.CountOfOrdered</h5>
+                <h5 class="card-title">@Model.CountOfMenus</h5>
                 <p class="card-text">Number of Menus Sold</p>
             </div>
         </div>
@@ -116,19 +72,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Orders as List<Order>)
+            @foreach (var item in Model.Orders.Where(x=>x!=null).ToList() as List<Order>)
             {
+                addingExtras = "";
                 <tr>
                     <td>
                         @item.Quantity x (@item.Menu.MenuName-@item.Menu.Price TL)
                     </td>
-                    <td>
+                    <td>                 
                         @foreach (var extra in item.Extras as List<Extra>)
                         {
-                            @String.Format($"{extra.ExtraName},")
-                            ;
-
+                            addingExtras += extra.ExtraName + ",";
                         }
+                        @addingExtras.TrimEnd(',')
                     </td>
                     <td>
                         @item.Size

@@ -38,7 +38,7 @@ namespace HamburgerAppMvc.Models
                     break;
 
             }
-            TotalPrice += Extras.Sum(x => x.Price);
+            TotalPrice += Extras.Sum(x => x.Price) * Quantity;
           
 
         }

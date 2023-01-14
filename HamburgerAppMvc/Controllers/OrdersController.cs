@@ -111,7 +111,7 @@ namespace HamburgerAppMvc.Controllers
            orders.CountOfOrdered=orderList.Count;
             orders.Endorsement = orderList.Sum(x => x.TotalPrice);
             orders.CountOfMenus = orderList.Sum(x => x.Quantity);
-            orders.CountOfExtras=orderList.Sum(x => x.Extras.Count);
+            orders.CountOfExtras=orderList.Sum(x => x.Extras.Count*x.Quantity);
             orders.Orders = orderList;
             return View(orders);
         }
